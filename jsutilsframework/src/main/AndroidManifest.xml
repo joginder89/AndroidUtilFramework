@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="in.jogindersharma.jsutilsframework" >
+
+    <application >
+        <activity android:name=".ui.activities.SelectSingleImageWithDefaultIntent" />
+        <activity android:name=".ui.activities.ImageCropActivity" />
+        <activity android:name=".ui.activities.SelectAndCropImageActivity" />
+    </application>
+
+</manifest>
