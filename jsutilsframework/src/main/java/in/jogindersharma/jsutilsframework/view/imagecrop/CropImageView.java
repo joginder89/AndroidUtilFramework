@@ -1331,7 +1331,7 @@ public class CropImageView extends ImageView {
         RATIO_FIT_IMAGE(0), RATIO_4_3(1), RATIO_3_4(2), RATIO_1_1(3), RATIO_16_9(4), RATIO_9_16(5), RATIO_FREE(6), RATIO_CUSTOM(7), CIRCLE(8);
         private final int ID;
 
-        private CropMode(final int id) {
+        CropMode(final int id) {
             this.ID = id;
         }
 
@@ -1344,7 +1344,7 @@ public class CropImageView extends ImageView {
         SHOW_ALWAYS(1), SHOW_ON_TOUCH(2), NOT_SHOW(3);
         private final int ID;
 
-        private ShowMode(final int id) {
+        ShowMode(final int id) {
             this.ID = id;
         }
 
@@ -1358,7 +1358,7 @@ public class CropImageView extends ImageView {
 
         private final int VALUE;
 
-        private RotateDegrees(final int value) {
+        RotateDegrees(final int value) {
             this.VALUE = value;
         }
 

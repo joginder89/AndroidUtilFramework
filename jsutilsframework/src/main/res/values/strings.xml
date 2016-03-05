@@ -1,5 +1,5 @@
 <resources>
-    <string name="framework_name">JSUtilsFramework</string>
+    <string name="app_name">JSUtilsFramework</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -382,6 +382,6 @@
     <string name="fa_vimeo_square">&#xf194;</string>
     <string name="fa_try">&#xf195;</string>
     <string name="fa_plus_square_o">&#xf196;</string>
+    <string name="error_in_saving_image_to_sd_card">There is a problem in saving your image</string>
 
-    <string name="error_in_saving_image_to_sd_card">Error in saving your photo to External Storage</string>
 </resources>

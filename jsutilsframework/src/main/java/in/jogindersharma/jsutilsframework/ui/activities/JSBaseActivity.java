@@ -21,28 +21,6 @@ public abstract class JSBaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jsutils_main);
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
-
     public void showProgressDialog(String message) {
         hideProgressDialog();
         if (mProgressDialog == null) {
@@ -67,18 +45,9 @@ public abstract class JSBaseActivity extends AppCompatActivity {
         }
     }
 
-    public void showAlertDialog(String message) {
-        showAlertDialog(null, message);
-    }
-
-    public void showAlertDialog(String title, String message){
+    public void showAlertDialog(String message){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        if(title != null) {
-            alertDialogBuilder.setTitle(title);
-        } else {
-            alertDialogBuilder.setTitle("Alert");
-        }
-
+        alertDialogBuilder.setTitle("Title");
         //alertDialogBuilder.setIcon(R.drawable.notification_template_icon_bg);
         alertDialogBuilder.setMessage(message);
 
@@ -99,5 +68,4 @@ public abstract class JSBaseActivity extends AppCompatActivity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-
 }

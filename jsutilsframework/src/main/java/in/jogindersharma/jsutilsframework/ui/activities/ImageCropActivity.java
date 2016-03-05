@@ -5,14 +5,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import in.jogindersharma.jsutilsframework.R;
 import in.jogindersharma.jsutilsframework.utils.files.FileUtil;
 import in.jogindersharma.jsutilsframework.view.imagecrop.CropImageView;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class ImageCropActivity extends JSBaseActivity {
 
@@ -25,7 +20,6 @@ public class ImageCropActivity extends JSBaseActivity {
         setContentView(R.layout.activity_image_crop);
 
         imagePath = getIntent().getStringExtra("image_path");
-
         initLayouts();
     }
 
@@ -104,8 +98,8 @@ public class ImageCropActivity extends JSBaseActivity {
         });
     }
 
-    /*private void finishActivityWithResult() {
-        showProgressDialog(null);
+    private void finishActivityWithResult() {
+
         String imagePath = FileUtil.saveBitmapToLocal(mCropView.getCroppedBitmap(), this);
 
         Bundle conData = new Bundle();
@@ -114,54 +108,6 @@ public class ImageCropActivity extends JSBaseActivity {
         intent.putExtras(conData);
         setResult(RESULT_OK, intent);
         Log.e(TAG, "imagePath : " + imagePath);
-        hideProgressDialog();
         finish();
-    }*/
-
-    private void finishActivityWithResult() {
-        showProgressDialog(null);
-        saveImagePathObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mySubscriber);
     }
-
-    private Observable<String> saveImagePathObservable() {
-        return Observable.create(
-                new Observable.OnSubscribe<String>() {
-                    @Override
-                    public void call(Subscriber<? super String> subscriber) {
-                        String imagePath = FileUtil.saveBitmapToLocal(mCropView.getCroppedBitmap(), ImageCropActivity.this);
-                        subscriber.onNext(imagePath);
-                        subscriber.onCompleted();
-                    }
-                }
-        );
-    }
-
-    Subscriber<String> mySubscriber = new Subscriber<String>() {
-        @Override
-        public void onNext(String s) {
-            Log.e(TAG, "onNext : " + s);
-
-            Bundle conData = new Bundle();
-            conData.putString("image_path", s);
-            Intent intent = new Intent();
-            intent.putExtras(conData);
-            setResult(RESULT_OK, intent);
-            hideProgressDialog();
-            finish();
-        }
-
-        @Override
-        public void onCompleted() {
-            Log.e(TAG, "onCompleted");
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            e.printStackTrace();
-        }
-    };
-
 }

@@ -101,7 +101,7 @@ public class SelectAndCropImage extends JSBaseActivity implements View.OnClickLi
     }
 
     public void showAlertDialog(String message) {
-        showAlertDialog(null, message);
+        showAlertDialog(message);
     }
 
     private void saveImageToExternalStorage(String imagePath, String appName) {

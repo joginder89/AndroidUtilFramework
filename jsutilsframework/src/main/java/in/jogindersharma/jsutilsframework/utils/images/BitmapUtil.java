@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.media.ExifInterface;
+import android.support.v4.graphics.BitmapCompat;
 import android.util.Log;
 
 import java.io.File;
@@ -18,14 +19,14 @@ import java.nio.channels.FileChannel.MapMode;
 import in.jogindersharma.jsutilsframework.utils.Constants;
 
 
-public class BitmapUtils {
-    private static final String TAG = Constants.TAG + BitmapUtils.class.getSimpleName();
+public class BitmapUtil {
+    private static final String TAG = Constants.TAG + BitmapUtil.class.getSimpleName();
 
     /**
      * Call {@link BitmapFactory#decodeFile(String, BitmapFactory.Options)}, retrying up to 4 times with an increased
      * {@link BitmapFactory.Options#inSampleSize} if an {@link OutOfMemoryError} occurs.<br/>
      * If after trying 4 times the file still could not be decoded, {@code null} is returned.
-     * 
+     *
      * @param imageFile The file to be decoded.
      * @param options The Options object passed to {@link BitmapFactory#decodeFile(String, BitmapFactory.Options)} (can be {@code null}).
      * @return The decoded bitmap, or {@code null} if it could not be decoded.
@@ -102,31 +103,31 @@ public class BitmapUtils {
      */
     //@formatter:off
     @SuppressLint("InlinedApi")
-    private static final String[] EXIF_TAGS = new String[] { 
-        ExifInterface.TAG_APERTURE,
-        ExifInterface.TAG_DATETIME, 
-        ExifInterface.TAG_EXPOSURE_TIME,
-        ExifInterface.TAG_FLASH, 
-        ExifInterface.TAG_FOCAL_LENGTH, 
-        ExifInterface.TAG_GPS_ALTITUDE, 
-        ExifInterface.TAG_GPS_ALTITUDE_REF,
-        ExifInterface.TAG_GPS_DATESTAMP, 
-        ExifInterface.TAG_GPS_LATITUDE, 
-        ExifInterface.TAG_GPS_LATITUDE_REF, 
-        ExifInterface.TAG_GPS_LONGITUDE,
-        ExifInterface.TAG_GPS_LONGITUDE_REF, 
-        ExifInterface.TAG_GPS_PROCESSING_METHOD, 
-        ExifInterface.TAG_GPS_TIMESTAMP, 
-        ExifInterface.TAG_ISO, 
-        ExifInterface.TAG_MAKE, 
-        ExifInterface.TAG_MODEL, 
-        ExifInterface.TAG_WHITE_BALANCE,
+    private static final String[] EXIF_TAGS = new String[] {
+            ExifInterface.TAG_APERTURE,
+            ExifInterface.TAG_DATETIME,
+            ExifInterface.TAG_EXPOSURE_TIME,
+            ExifInterface.TAG_FLASH,
+            ExifInterface.TAG_FOCAL_LENGTH,
+            ExifInterface.TAG_GPS_ALTITUDE,
+            ExifInterface.TAG_GPS_ALTITUDE_REF,
+            ExifInterface.TAG_GPS_DATESTAMP,
+            ExifInterface.TAG_GPS_LATITUDE,
+            ExifInterface.TAG_GPS_LATITUDE_REF,
+            ExifInterface.TAG_GPS_LONGITUDE,
+            ExifInterface.TAG_GPS_LONGITUDE_REF,
+            ExifInterface.TAG_GPS_PROCESSING_METHOD,
+            ExifInterface.TAG_GPS_TIMESTAMP,
+            ExifInterface.TAG_ISO,
+            ExifInterface.TAG_MAKE,
+            ExifInterface.TAG_MODEL,
+            ExifInterface.TAG_WHITE_BALANCE,
     };
     //@formatter:on
 
     /**
      * Copy the EXIF tags from the source image file to the destination image file.
-     * 
+     *
      * @param sourceFile The existing source JPEG file.
      * @param destFile The existing destination JPEG file.
      * @throws IOException If EXIF information could not be read or written.
@@ -148,7 +149,7 @@ public class BitmapUtils {
 
     /**
      * Retrieves the dimensions of the bitmap in the given file.
-     * 
+     *
      * @param bitmapFile The file containing the bitmap to measure.
      * @return A {@code Point} containing the width in {@code x} and the height in {@code y}.
      */
@@ -166,7 +167,7 @@ public class BitmapUtils {
 
     /**
      * Retrieves the rotation in the EXIF tags of the given file.
-     * 
+     *
      * @param bitmapFile The file from which to retrieve the info.
      * @return The rotation in degrees, or {@code 0} if there was no EXIF tags in the given file, or it could not be read.
      */
@@ -201,7 +202,7 @@ public class BitmapUtils {
      * Creates a small version of the bitmap inside the given file, using the given max dimensions.<br/>
      * The resulting bitmap's dimensions will always be smaller than the given max dimensions.<br/>
      * The rotation EXIF tag of the given file, if present, is used to return a thumbnail that won't be rotated.
-     * 
+     *
      * @param bitmapFile The file containing the bitmap to create a thumbnail from.
      * @param maxWidth The wanted maximum width of the resulting thumbnail.
      * @param maxHeight The wanted maximum height of the resulting thumbnail.
@@ -262,5 +263,153 @@ public class BitmapUtils {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         return BitmapFactory.decodeFile(imagePath, options);
+    }
+
+    ////////////////////////Bitmap Compress Methods
+
+
+
+    //Methods for Compress Image Size
+
+/*    public static Bitmap shrinkBitmap(String file, int width, int height) {
+        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+        //bmpFactoryOptions.inJustDecodeBounds = true;
+
+        Log.e(TAG, "bmpFactoryOptions : " + bmpFactoryOptions);
+
+        Bitmap originalBitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+        Log.e(TAG, "fileName : " + file + " originalBitmap : " + originalBitmap);
+
+        Log.e(TAG, "OriginalBitmapSize : " + (byteSizeOf(originalBitmap) / 1024) + " KB");
+
+        int heightRatio = (int) Math.ceil(bmpFactoryOptions.outHeight / (float) height);
+        int widthRatio = (int) Math.ceil(bmpFactoryOptions.outWidth / (float) width);
+
+        if (heightRatio > 1 || widthRatio > 1) {
+            if (heightRatio > widthRatio) {
+                bmpFactoryOptions.inSampleSize = heightRatio;
+            } else {
+                bmpFactoryOptions.inSampleSize = widthRatio;
+            }
+        }
+
+        bmpFactoryOptions.inJustDecodeBounds = false;
+        Bitmap scaledBitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+        Log.e(TAG, "ScaledBitmapSize : " + + (byteSizeOf(scaledBitmap) / 1024) + " KB");
+        return scaledBitmap;
+    }*/
+
+    /*public String encodeTobase64(Bitmap image) {
+        String byteImage = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        try {
+            System.gc();
+            byteImage = Base64.encodeToString(b, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            baos = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            b = baos.toByteArray();
+            byteImage = Base64.encodeToString(b, Base64.DEFAULT);
+            Log.e("Bitmap", "Out of memory error catched");
+        }
+        return byteImage;
+    }*/
+
+    // bitmap = Bitmap.createScaledBitmap(bitmap,desiredImageWidth,desiredImageHeight,true);
+
+
+    /*public static void fun1() {
+        try
+
+        {
+            int inWidth = 0;
+            int inHeight = 0;
+
+            InputStream in = new FileInputStream(pathOfInputImage);
+
+// decode image size (decode metadata only, not the whole image)
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(in, null, options);
+            in.close();
+            in = null;
+
+// save width and height
+            inWidth = options.outWidth;
+            inHeight = options.outHeight;
+
+// decode full image pre-resized
+            in = new FileInputStream(pathOfInputImage);
+            options = new BitmapFactory.Options();
+// calc rought re-size (this is no exact resize)
+            options.inSampleSize = Math.max(inWidth / dstWidth, inHeight / dstHeight);
+// decode full image
+            Bitmap roughBitmap = BitmapFactory.decodeStream(in, null, options);
+
+// calc exact destination size
+            Matrix m = new Matrix();
+            RectF inRect = new RectF(0, 0, roughBitmap.getWidth(), roughBitmap.getHeight());
+            RectF outRect = new RectF(0, 0, dstWidth, dstHeight);
+            m.setRectToRect(inRect, outRect, Matrix.ScaleToFit.CENTER);
+            float[] values = new float[9];
+            m.getValues(values);
+
+// resize bitmap
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(roughBitmap, (int) (roughBitmap.getWidth() * values[0]), (int) (roughBitmap.getHeight() * values[4]), true);
+
+// save image
+            try {
+                FileOutputStream out = new FileOutputStream(pathOfOutputImage);
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+            } catch (Exception e) {
+                Log.e("Image", e.getMessage(), e);
+            }
+        } catch (
+                IOException e
+                )
+
+        {
+            Log.e("Image", e.getMessage(), e);
+        }
+    }*/
+
+    public static Bitmap shrinkBitmap(String path,int DESIREDWIDTH, int DESIREDHEIGHT) {
+        Bitmap bitmap;
+        try {
+            Bitmap unscaledBitmap = ScalingUtilities.decodeFile(path, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
+            if (!(unscaledBitmap.getWidth() <= DESIREDWIDTH && unscaledBitmap.getHeight() <= DESIREDHEIGHT)) {
+                bitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, DESIREDWIDTH, DESIREDHEIGHT, ScalingUtilities.ScalingLogic.FIT);
+            } else {
+                bitmap = unscaledBitmap;
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return null;
+        }
+
+       /* Log.e(TAG, "original bitmap : " + byteSizeOf(bitmap));
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, out);
+        bitmap = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+        Log.e(TAG, "compress bitmap : " + byteSizeOf(bitmap));*/
+
+        return bitmap;
+    }
+
+    public static int byteSizeOf(Bitmap bitmap) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return bitmap.getAllocationByteCount();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            return bitmap.getByteCount();
+        } else {
+            return bitmap.getRowBytes() * bitmap.getHeight();
+        }*/
+
+        return BitmapCompat.getAllocationByteCount(bitmap);
     }
 }

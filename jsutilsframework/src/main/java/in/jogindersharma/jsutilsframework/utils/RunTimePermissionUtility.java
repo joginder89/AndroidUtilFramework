@@ -12,7 +12,7 @@ public class RunTimePermissionUtility {
 
     static final String TAG = "RunTimePermissionUtilit";
 
-    public static boolean doWeHaveReadExternalStoragePermission(Activity activity) {
+    /*public static boolean doWeHaveReadExternalStoragePermission(Activity activity) {
         return (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 
@@ -28,6 +28,86 @@ public class RunTimePermissionUtility {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             requestReadExternalStoragePermission(activity, requestCode);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        } else {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Required Attention")
+                    .setMessage("Please Note previously you do not granted this permission. Please go to setting and enable this permission for this application.")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+    }*/
+
+
+    public static boolean doWeHaveLocationPermission(Activity activity) {
+        return (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public static void requestLocationPermission(Activity activity,int requestCode) {
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, requestCode);
+    }
+
+    public static void showReasonBoxForLocationPermission(final Activity activity, final int requestCode) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Required Attention")
+                    .setMessage("Please Note this permission is required to get your Location")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestLocationPermission(activity, requestCode);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        } else {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Required Attention")
+                    .setMessage("Please Note previously you do not granted this permission. Please go to setting and enable this permission for this application.")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+    }
+
+
+    public static boolean doWeHaveReadPhoneStatePermission(Activity activity) {
+        return (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public static void requestReadPhoneStatePermission(Activity activity,int requestCode) {
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_PHONE_STATE}, requestCode);
+    }
+
+    public static void showReasonBoxForReadPhoneStatePermission(final Activity activity, final int requestCode) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_PHONE_STATE)) {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Required Attention")
+                    .setMessage("Please Note this permission is required to get your Mobile Number")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestReadPhoneStatePermission(activity, requestCode);
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
